@@ -2707,7 +2707,7 @@ onSnapshot(collection(db,'proj_items'),snap=>{
   try{spRefresh();}catch(e){}
   try{if(document.getElementById('pane-dash')?.classList.contains('active'))renderDash();}catch(e){}
   try{if(document.getElementById('pane-dash')?.classList.contains('active'))window.renderMyProjects&&window.renderMyProjects();}catch(e){}
-  try{if(document.getElementById('pane-mypage')?.classList.contains('active'))window.renderMyPage&&window.renderMyPage();}catch(e){}
+  try{ window.renderMyPage&&window.renderMyPage(); }catch(e){ console.error('renderMyPage:',e); }
   // マイページが表示中でなくても初回はrenderMyPageを実行
   try{if(document.getElementById('tab-gaichuu')?.classList.contains('active')||document.getElementById('tab-gaichuu')?.style.display!=='none')window.renderGaichuu&&window.renderGaichuu();}catch(e){}
   try{if(document.getElementById('pane-archive')?.classList.contains('active'))window.renderArchive&&window.renderArchive();}catch(e){}
@@ -5252,7 +5252,7 @@ window.addProjRequest = async function(projId){
     if(sel) sel.value='';
     showToast(`${to}さんに依頼を送りました`,'success');
     // マイページも更新
-    if(document.getElementById('pane-mypage')?.classList.contains('active')) window.renderMyPage&&window.renderMyPage();
+    window.renderMyPage&&window.renderMyPage();
   } catch(e){ showToast('エラー: '+e.message,'error'); }
 };
 
@@ -5346,7 +5346,7 @@ window._setupProjRequestListener = function(dbNyukin){
     });
     // マイページの自分宛依頼も更新（proj_requestsはマイページに統合）
     window._mypageRequests = window._projRequests;
-    if(document.getElementById('pane-mypage')?.classList.contains('active')) window.renderMyPage&&window.renderMyPage();
+    window.renderMyPage&&window.renderMyPage();
   }, e=>console.error('proj_requests snapshot error:',e));
 };
 // ─────────────────────────────────────────────────────────
@@ -5636,7 +5636,7 @@ window.cycleReqStatus = async function(id){
   const {doc:d2, updateDoc:u2} = await import('https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js');
   const col = pr ? 'proj_requests' : 'requests';
   await u2(d2(dbN,col,id),{status:next});
-  if(document.getElementById('pane-mypage')?.classList.contains('active')) window.renderMyPage&&window.renderMyPage();
+  window.renderMyPage&&window.renderMyPage();
 };
 
 window.openAddRequest = function(){
@@ -5720,7 +5720,7 @@ window._setupRequestListener = function(dbNyukin){
     });
     renderReqMemberTabs();
     renderRequests();
-    if(document.getElementById('pane-mypage')?.classList.contains('active')) window.renderMyPage&&window.renderMyPage();
+    window.renderMyPage&&window.renderMyPage();
   }, e=>console.error('requests snapshot error:',e));
 };
 }
