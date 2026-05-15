@@ -7891,7 +7891,7 @@ onAuthStateChanged(auth, user => {
         <button id="logout-btn" style="width:100%;padding:5px 10px;border-radius:7px;border:0.5px solid var(--border);background:var(--surface);color:var(--text-m);font-size:11px;cursor:pointer;font-family:inherit;text-align:left">ログアウト</button>`;
       footer.prepend(div);
       document.getElementById('logout-btn').addEventListener('click', async ()=>{
-        if(confirm('ログアウトしますか？')) await signOut(auth);
+        if(confirm('ログアウトしますか？')) { await signOut(auth); location.reload(); }
       });
     }
   } else {
@@ -7911,6 +7911,8 @@ window._doLogin = async function(){
   if(errEl) errEl.style.display='none';
   try{
     await signInWithEmailAndPassword(auth, email, pass);
+    // ログイン成功 → リロードして正常に初期化
+    location.reload();
   } catch(e){
     const msgs = {
       'auth/invalid-credential':'メールアドレスまたはパスワードが正しくありません',
