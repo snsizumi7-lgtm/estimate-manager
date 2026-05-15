@@ -4318,6 +4318,7 @@ window.toggleAutoProgress=(projId,val)=>{
 
 // ─── マイページ JS ───────────────────────────────────
 window.renderMyPage = function(){
+  try {
   const me = window._currentUser;
 
   // 日付表示
@@ -4811,6 +4812,11 @@ window.renderMyPage = function(){
           </div>`;
         }).join('')+`</div>`;
     }
+  }
+  } catch(err) {
+    console.error('renderMyPage ERROR:', err);
+    const notifList = document.getElementById('mypage-notif-list');
+    if(notifList) notifList.innerHTML = `<div style="color:red;font-size:12px;padding:8px;background:#FCEBEB;border-radius:8px">描画エラー: ${err.message}</div>`;
   }
 };
 window._mypageRequests=[];
